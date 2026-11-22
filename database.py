@@ -18,14 +18,14 @@ def connect_db():
 
 
 def get_employees():
-    db = connect_db() #just to establish connection to the database
 
+    db = connect_db() 
     try:
-        cursor = db.cursor() #.cursor() used to create an object that allows SQL commands inside the function
+        cursor = db.cursor() 
 
-        cursor.execute("SELECT * FROM employees") #hightlight data and copy it to the clipboard
+        cursor.execute("SELECT * FROM employees") 
 
-        records = cursor.fetchall() #paste the copied data into the code
+        records = cursor.fetchall() 
 
         return records #pass the data back to the records variable
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     try:
         employees = get_employees() #run the function of the get_employees() to get the data from the stored value earlier
 
-        for employee in employees: #get
+        for employee in employees: 
             print(employee) 
 
     except psycopg.Error as error:
@@ -47,38 +47,38 @@ def insert_employee(name, department, salary):
     db = connect_db() #establish connection to the database
 
     try:
-        cursor = db.cursor() #allows SQL commands to be executed in the database
+        cursor = db.cursor() #we need to execute SQL commands so .cursor() allows us to do that
         cursor.execute(
             "INSERT INTO employees (name, department, salary) VALUES (%s, %s, %s)",
             (name, department, salary)
         ) #execute the SQL command
-        db.commit()  # Commit the transaction to save changes
-        print("Employee added successfully.") #prints after the transaction completes
+        db.commit()  #Commit the transaction to save changes
+        print("Employee added successfully.")  
 
     except psycopg.Error as error:
         print("Database error:", error)
 
     finally:
-        db.close() #closes the database connection
+        db.close()  
 
 def find_employee(name):
-    db = connect_db()  # Establish connection to the database
+    db = connect_db()   
 
     try:
-        cursor = db.cursor()  # Allows SQL commands to be executed in the database
+        cursor = db.cursor()  
         cursor.execute(
             "SELECT * FROM employees WHERE name ILIKE %s",
             (f"%{name}%",)
-        )  # Execute the SQL command with case-insensitive search
+        )   
         records = cursor.fetchall()  # Fetch all matching records
 
-        return records  # Return the matching records
+        return records   
 
     except psycopg.Error as error:
         print("Database error:", error)
 
     finally:
-        db.close()  # Close the database connection
+        db.close()   
 
 def del_employee(employee_id):
     db = connect_db()
